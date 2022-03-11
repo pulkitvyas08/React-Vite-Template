@@ -1,57 +1,83 @@
-import React from "react";
+import React, { useEffect } from 'react';
+import { ReactNode } from 'react';
 import {
-    AppBar,
-    Toolbar,
-    CssBaseline,
-    Typography
-} from "@mui/material";
-import { makeStyles } from '@mui/styles';
-import { Link } from "react-router-dom";
+  Box,
+  Flex,
+  Avatar,
+  Link,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  useDisclosure,
+  useColorModeValue,
+  Stack,
+  useColorMode,
+  Center,
+} from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import DarkModeToggle from "react-dark-mode-toggle";
+import { useRecoilState } from 'recoil';
 
-const useStyles = makeStyles(() => ({
-    navlinks: {
-        display: "flex",
-    },
-    logo: {
-        flexGrow: "1",
-        cursor: "pointer",
-    },
-    link: {
-        textDecoration: "none",
-        color: "white",
-        fontSize: "20px",
-        "&:hover": {
-            color: "yellow",
-            borderBottom: "1px solid white",
-        },
-    },
-}));
+import { darkThemeSelectedState } from '@src/store/DarkThemeSelectedState';
 
 export const Navbar = () => {
-    const classes = useStyles();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const [isDarkModeActive, setIsDarkModeActive] = useRecoilState(darkThemeSelectedState);
+  useEffect(() => {
+    toggleColorMode();
+  }, [isDarkModeActive]);
+  return (
+    <>
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          <Box>React Vite Template</Box>
 
-    return (
-        <AppBar position="static">
-            <CssBaseline />
-            <Toolbar>
-                <Typography variant="h4" className={classes.logo}>
-                    Navbar
-                </Typography>
-                <div className={classes.navlinks}>
-                    <Link to="/" className={classes.link}>
-                        Home
-                    </Link>
-                    <Link to="/about" className={classes.link}>
-                        About
-                    </Link>
-                    <Link to="/contact" className={classes.link}>
-                        Contact
-                    </Link>
-                    <Link to="/faq" className={classes.link}>
-                        FAQ
-                    </Link>
-                </div>
-            </Toolbar>
-        </AppBar>
-    );
+          <Flex alignItems={'center'}>
+            <Stack direction={'row'} spacing={7}>
+              <DarkModeToggle
+                onChange={setIsDarkModeActive}
+                checked={isDarkModeActive}
+                size={80}
+              />
+
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                  <Avatar
+                    size={'sm'}
+                    src={'https://avatars.dicebear.com/api/male/username.svg'}
+                  />
+                </MenuButton>
+                <MenuList alignItems={'center'}>
+                  <br />
+                  <Center>
+                    <Avatar
+                      size={'2xl'}
+                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    />
+                  </Center>
+                  <br />
+                  <Center>
+                    <p>Username</p>
+                  </Center>
+                  <br />
+                  <MenuDivider />
+                  <MenuItem>Your Servers</MenuItem>
+                  <MenuItem>Account Settings</MenuItem>
+                  <MenuItem>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            </Stack>
+          </Flex>
+        </Flex>
+      </Box>
+    </>
+  );
 }
