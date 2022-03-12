@@ -14,7 +14,7 @@
 - Framework: [React](https://reactjs.org/) ⚛️
 - Tooling System: [Vite](https://vitejs.dev/) 🚀
 - Styling: [SASS](https://sass-lang.com/) 🖌️
-- UI Library: [Material UI](https://mui.com/) ✨
+- UI Library: [Chakra UI](https://chakra-ui.com/) ✨
 - State Management: [Recoil](https://recoiljs.org/) 🔥
 
 ### File Structure
